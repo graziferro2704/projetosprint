@@ -1,0 +1,43 @@
+@model IEnumerable<App.Models.Banner>
+<p>
+    <a asp-action="CriarBanner" class="botao">Novo Banner</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th> @Html.DisplayNameFor(model => model.Imagem) </th>
+            <th> @Html.DisplayNameFor(model => model.Titulo) </th>
+            <th> @Html.DisplayNameFor(model => model.Subtitulo) </th>
+            <th> @Html.DisplayNameFor(model => model.Link) </th>
+            <th> @Html.DisplayNameFor(model => model.Exibir) </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td><img src="~/fotos/@item.Imagem" alt="" style="width:100px"></td>
+                <td> @Html.DisplayFor(modelItem => item.Titulo)</td>
+                <td> @Html.DisplayFor(modelItem => item.Subtitulo) </td>
+                <td> @Html.DisplayFor(modelItem => item.Link)</td>
+                <td> @Html.DisplayFor(modelItem => item.Exibir) </td>
+                <td>
+                    <a class="btn btn-outline-success" asp-action="EditarBanner" asp-route-id="@item.BannerId">Editar</a> |
+                    <a class="btn btn-outline-danger" asp-action="DeletarBanner" asp-route-id="@item.BannerId">Deletar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    .botao {
+        color: #CC9A06;
+        background-color: #423390;
+        text-decoration: none;
+        padding: 6px;
+        border: solid 1px black;
+        border-radius: 5px;
+    }
+</style>

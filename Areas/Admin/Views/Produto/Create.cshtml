@@ -1,0 +1,65 @@
+@model App.Models.Produto
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Criar</h1>
+
+<h4>Produto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descricao" class="control-label"></label>
+                <input asp-for="Descricao" class="form-control" />
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Foto" class="control-label"></label>
+                <input asp-for="Foto" class="form-control" />
+                <span asp-validation-for="Foto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Preco" class="control-label"></label>
+                <input asp-for="Preco" class="form-control" />
+                <span asp-validation-for="Preco" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Ativo" /> @Html.DisplayNameFor(model => model.Ativo)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoriaID" class="control-label"></label>
+                <select asp-for="CategoriaID" class ="form-control" asp-items="ViewBag.CategoriaID"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Criar" class="criar" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-dark mb-5" asp-action="Index">Voltar à lista</a>
+</div>
+<style>
+    .criar {
+        margin-top: 6px;
+        margin-bottom: 6px;
+        color: #CC9A06;
+        background-color: #423390;
+        text-decoration: none;
+        padding: 6px;
+        border: solid 1px black;
+        border-radius: 5px;
+    }
+</style>

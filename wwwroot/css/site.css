@@ -1,0 +1,71 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  background-color: #EBE0D4;
+}
+
+nav {
+  background-color: #211460;
+}
+
+.nav-link, .corsecundaria {
+  color: #CC9A06 !important;
+}
+
+footer {
+  background-color: #211460;
+}
+
+footer > div {
+  color: #CC9A06;
+  font-family: Harry P;
+  font-size: 20px;
+}
+
+footer > div > a {
+  color: #CC9A06;
+  text-decoration-line: none;
+  font-family: Harry P;
+}
+
+.letra {
+  text-shadow: 4px 4px 4px black;
+}
+
+.pagi {
+  background-color: #211460;
+  color: #CC9A06 !important;
+}
+
+.only-print {
+  display: none;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .container {
+    max-width: 100%;
+  }
+  .only-print {
+    display: block;
+  }
+}

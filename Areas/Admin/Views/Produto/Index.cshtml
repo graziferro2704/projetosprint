@@ -1,0 +1,129 @@
+@model App.Models.ProdutoCategoriaViewModel;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="no-print">Produtos</h1>
+
+<p>
+    <a class="botao no-print" asp-action="Create">Criar novo</a>
+</p>
+
+<form class="d-flex align-items-center no-print" asp-action="Index" method="get">
+    <input type="text" name="txtFiltro" placeholder="Digite aqui o que procura" value="@ViewBag.txtFiltro"
+        class="form-control">
+    <button class="botao" type="submit"><i class="bi bi-search"></i> Buscar</button>
+    <select name="selOrdenacao" class="form-control mx-2">
+        <option value="Nome">Ordenar por nome</option>
+        <option value="MenorPreço">Ordenar por menor preço</option>
+        <option value="MaiorPreço">Ordenar por maior preço</option>
+        <option value="Categoria">Ordenar por categoria</option>
+    </select>
+    <button class="btn btn-dark" type="submit" name="botao" value="Relatorio"> Relatório </button>
+
+    <button class="btn btn-success ms-2 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        Exportar
+    </button>
+    <ul class="dropdown-menu dropdown-menu-dark">
+        <li><button class="dropdown-item" type="submit" name="botao" value="XML"> XML</button></li>
+        <li><button class="dropdown-item" type="submit" name="botao" value="Json"> Json</button></li>
+    </ul>
+</form>
+
+<h1 class="pagi p-3 rounded text-center only-print"> Cardápio: </h1>
+
+<p class="only-print p-2 text-center shadow rounded m-3 bg-light"> Filtrado por: @ViewBag.txtFiltro
+    e ordenado por @ViewBag.Ordem</p>
+
+<div class="d-flex justify-content-center no-print mt-4">
+    <ul class="pagination">
+        @{
+            string primeira = "";
+            string ultima = "";
+        }
+
+        @if (!Model.ListaProduto.HasPreviousPage)
+            primeira = "disabled";
+
+        @if (!Model.ListaProduto.HasNextPage)
+            ultima = "disabled";
+
+        @for (int i = 1; i <= Model.ListaProduto.PageCount; i++)
+        {
+            <li class="page-item pagi @(i == Model.ListaProduto.PageNumber ? "active" : "")">
+                <a class="page-link pagi" asp-route-pagina="@i" asp-route-txtFiltro="@ViewData["txtFiltro"]">@i</a>
+            </li>
+        }
+
+    </ul>
+</div>
+
+<table class="table mb-5">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ListaProduto[0].Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ListaProduto[0].Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ListaProduto[0].Preco)
+            </th>
+            <th class="no-print">
+                @Html.DisplayNameFor(model => model.ListaProduto[0].Ativo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ListaProduto[0].Categoria)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ListaProduto)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @item.Preco.ToString("C")
+                </td>
+                <td class="no-print">
+                    @Html.DisplayFor(modelItem => item.Ativo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Categoria.CategoriaNome)
+                </td>
+                <td class="no-print">
+                    <a class="btn btn-outline-success" asp-action="Edit" asp-route-id="@item.ProdutoId">Editar</a> |
+                    <a class="btn btn-outline-warning" asp-action="Details" asp-route-id="@item.ProdutoId">Detalhes</a> |
+                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ProdutoId">Deletar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+    <div class="d-flex flex-wrap gap-1 justify-content-center no-print">
+        @foreach (var item in Model.ListaCategoria)
+        {
+            <a class="botao mx-2 mb-4" asp-route-Categoria="@item.CategoriaNome">@item.CategoriaNome</a>
+        }
+    </div>
+
+</table>
+
+<style>
+    .botao {
+        color: #CC9A06;
+        background-color: #423390;
+        text-decoration: none;
+        padding: 6px;
+        border: solid 1px black;
+        border-radius: 5px;
+    }
+</style>

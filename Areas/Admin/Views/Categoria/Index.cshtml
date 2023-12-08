@@ -1,0 +1,63 @@
+@model IEnumerable<App.Models.Categoria>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Categoria</h1>
+
+<p>
+    <a class="botao" asp-action="Create">Criar novo</a>
+</p>
+
+<form class="d-flex align-items-center no-print" asp-action="Index" method="get">
+    <input type="text" name="txtFiltro" placeholder="Digite aqui o que procura" value="@ViewBag.txtFiltro"
+        class="form-control">
+    <button class="botao" type="submit"><i class="bi bi-search"></i> Buscar</button>
+    <select name="selOrdenacao" class="form-control mx-2">
+        <option value="Categoria">Ordenar por categoria</option>
+        <option value="Descricao">Ordenar por descrição</option>
+    </select>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoriaNome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoriaNome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    <a class="btn btn-outline-success" asp-action="Edit" asp-route-id="@item.CategoriaID">Editar</a> |
+                    <a class="btn btn-outline-warning" asp-action="Details" asp-route-id="@item.CategoriaID">Detalhes</a> |
+                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.CategoriaID">Deletar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<style>
+    .botao {
+        color: #CC9A06;
+        background-color: #423390;
+        text-decoration: none;
+        padding: 6px;
+        border: solid 1px black;
+        border-radius: 5px;
+    }
+</style>

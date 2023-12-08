@@ -1,0 +1,46 @@
+@model App.Models.Categoria
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Criar</h1>
+
+<h4>Categoria</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CategoriaNome" class="control-label"></label>
+                <input asp-for="CategoriaNome" class="form-control" />
+                <span asp-validation-for="CategoriaNome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descricao" class="control-label"></label>
+                <input asp-for="Descricao" class="form-control" />
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Criar" class="criar" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-dark" asp-action="Index">Voltar à lista</a>
+</div>
+<style>
+    .criar {
+        margin-top: 6px;
+        margin-bottom: 6px;
+        color: #CC9A06;
+        background-color: #423390;
+        text-decoration: none;
+        padding: 6px;
+        border: solid 1px black;
+        border-radius: 5px;
+    }
+</style>

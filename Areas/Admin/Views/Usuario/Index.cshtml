@@ -1,0 +1,56 @@
+@model IEnumerable<App.Models.Usuario>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Usuário</h1>
+
+<p>
+    <a asp-action="Create">Criar novo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Imagem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Login)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Imagem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Login)
+            </td>
+            <td>
+                <a class="btn btn-outline-success" asp-action="Edit" asp-route-id="@item.UsuarioId">Editar</a> |
+                <a class="btn btn-outline-warning" asp-action="Details" asp-route-id="@item.UsuarioId">Detalhes</a> |
+                <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.UsuarioId">Deletar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<style>
+    p > a {
+        color: #CC9A06;
+        background-color: #423390;
+        text-decoration: none;
+        padding: 6px;
+        border: solid 1px black;
+        border-radius: 5px;
+    }
+</style>

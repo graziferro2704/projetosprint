@@ -1,0 +1,165 @@
+@model App.Models.ProdutoCategoriaViewModel;
+
+@{
+    ViewData["Title"] = "Admin";
+}
+
+<style>
+    .card>img {
+        height: 17rem;
+        border-radius: 5px;
+        object-fit: cover;
+    }
+
+    .card {
+        margin: 3px;
+        background-color: #e7d7cb;
+
+    }
+
+    .botao {
+        color: #CC9A06;
+        background-color: #423390;
+        text-decoration: none;
+        padding: 6px;
+        border: solid 1px black;
+        border-radius: 5px;
+    }
+</style>
+<main>
+    <section id="meucarrosel" class="carousel carousel-dark slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#meucarrosel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#meucarrosel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#meucarrosel" data-bs-slide-to="2"></button>
+        </div>
+
+        <div class="carousel-inner">
+            @{
+                string bannerAtivo = " active";
+            }
+            @foreach (var item in Model.ListaBanner)
+            {
+                if (item.Exibir == true)
+                {
+                    <!-- Imagem 1 -->
+                    <div class="carousel-item @bannerAtivo" data-bs-interval="1000">
+                        @{
+                            bannerAtivo = "";
+                        }
+                        <img src="~/fotos/@item.Imagem" class="w-100 d-block">
+                        <div class="carousel-caption">
+                            <h4>@item.Titulo</h4>
+                            <p>@item.Subtitulo</p>
+                            @if (item.Link != null && item.Link != "")
+                            {
+                                <a href="@item.Link" class="btn btn-primary">Saiba mais</a>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#meucarrosel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+                <span class="visually-hidden"> Anterior </span>
+            </button>
+
+            <button class="carousel-control-next" type="button" data-bs-target="#meucarrosel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+                <span class="visually-hidden"> Próximo </span>
+            </button>
+
+    </section>
+
+    <form class="d-flex align-items-center no-print mt-3" asp-action="Index" method="get">
+        <input type="text" name="txtFiltro" placeholder="Digite aqui o que procura" value="@ViewBag.txtFiltro"
+            class="form-control">
+        <button class="botao" type="submit"><i class="bi bi-search"></i> Buscar</button>
+        <select name="selOrdenacao" class="form-control mx-2">
+            <option value="Nome">Ordenar por nome</option>
+            <option value="MenorPreço">Ordenar por menor preço</option>
+            <option value="MaiorPreço">Ordenar por maior preço</option>
+            <option value="Categoria">Ordenar por categoria</option>
+        </select>
+
+    </form>
+
+    <div class="d-flex justify-content-center no-print mt-4">
+        <ul class="pagination">
+            @{
+                string primeira = "";
+                string ultima = "";
+            }
+
+            @if (!Model.ListaProduto.HasPreviousPage)
+                primeira = "disabled";
+
+            @if (!Model.ListaProduto.HasNextPage)
+                ultima = "disabled";
+
+            @for (int i = 1; i <= Model.ListaProduto.PageCount; i++)
+            {
+                <li class="page-item pagi @(i == Model.ListaProduto.PageNumber ? "active" : "")">
+                    <a class="page-link pagi" asp-route-pagina="@i" asp-route-txtFiltro="@ViewData["txtFiltro"]">@i</a>
+                </li>
+            }
+
+        </ul>
+    </div>
+
+    <div class="d-flex flex-wrap gap-1 justify-content-center no-print">
+        @foreach (var item in Model.ListaCategoria)
+        {
+            <a class="botao mx-2" asp-route-Categoria="@item.CategoriaNome">@item.CategoriaNome</a>
+        }
+    </div>
+
+    <hr>
+
+    <div class="mb-5 row gap-3 justify-content-center">
+        @foreach (var item in Model.ListaProduto)
+        {
+            <div class="card col-9 col-md-5 col-lg-4 col-xl-3">
+                <div class="card">
+                    <img src="@Html.DisplayFor(Modelitem => item.Foto)" alt="Imagem de capa do card"
+                        class="img-fluid cover">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">@Html.DisplayFor(Modelitem => item.Nome)</h5>
+                        <p class="card-text">@item.Preco.ToString("C")</p>
+                        <a href="#" class="btn btn-secondary " data-bs-toggle="modal"
+                            data-bs-target="#_@item.ProdutoId">Saiba
+                            mais</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="_@item.ProdutoId" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">@Html.DisplayFor(Modelitem => item.Nome)</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-dialog modal-dialog-scrollable">
+                            <img src="@Html.DisplayFor(Modelitem => item.Foto)" alt="" class="img-fluid"
+                                style="width: 400px;">
+                        </div>
+                        <div class="modal-dialog modal-dialog-scrollable ms-3">
+                            @Html.DisplayFor(Modelitem => item.Descricao)
+                        </div>
+                        <div class="modal-dialog modal-dialog-scrollable ms-3">
+                            @item.Preco.ToString("C")
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+</main>
